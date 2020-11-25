@@ -19,6 +19,10 @@ import { useWatchAndRerender } from "@vertigis/web/ui/hooks";
 // https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/908
 declare const ResizeObserver;
 
+// This line should be removed when this issue is resolved:
+// https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/908
+declare const ResizeObserver;
+
 export default function EmbeddedMap(
     props: LayoutElementProperties<EmbeddedMapModel>
 ): React.ReactElement {

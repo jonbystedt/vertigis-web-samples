@@ -3,8 +3,8 @@ import { getMapOrSceneView } from "../mapUtils";
 const sampleName = "embedded-map";
 
 // Although we provide the exact number from the street view position when
-// setting the map center positions, the reported position of the map center
-// won't exactly match.
+// setting the map center position, the reported map center will not be exactly
+// the same.
 const mapCenterPrecision = 1e-4;
 const markerCenterPrecision = 1e-9;
 
@@ -30,7 +30,7 @@ const expectMapAndMarkerCenter = (lat: number, lon: number) =>
                 )
                 .graphics.getItemAt(0);
             expect(locationMarker.geometry.latitude).to.be.closeTo(lat, markerCenterPrecision);
-            expect(locationMarker.geometry.longitude).to.be.closeTo(lon, markerCenterPrecision); 
+            expect(locationMarker.geometry.longitude).to.be.closeTo(lon, markerCenterPrecision);
         });
 
 describe(sampleName, () => {

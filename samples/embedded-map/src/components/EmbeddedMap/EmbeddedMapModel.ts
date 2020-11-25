@@ -27,10 +27,6 @@ interface MapillaryCamera {
     fov: number;
 }
 
-interface GcxMap extends MapExtension {
-    view: SceneView;
-}
-
 @serializable
 export default class EmbeddedMapModel extends ComponentModelBase {
     // For demonstration purposes only.
@@ -69,6 +65,9 @@ export default class EmbeddedMapModel extends ComponentModelBase {
 
     // Set this to false to start with the maps unsynced
     sync = true;
+
+    // The computed position of the current Mapillary node
+    private _currentNodePosition: { lat: number; lon: number }; 
 
     private _mapillary: any | undefined;
     get mapillary(): any | undefined {
@@ -112,12 +111,12 @@ export default class EmbeddedMapModel extends ComponentModelBase {
         }
     }
 
-    private _map: GcxMap | undefined;
-    get map(): GcxMap | undefined {
+    private _map: MapExtension | undefined;
+    get map(): MapExtension | undefined {
         return this._map;
     }
     @importModel("map-extension")
-    set map(instance: GcxMap | undefined) {
+    set map(instance: MapExtension | undefined) {
         if (instance === this._map) {
             return;
         }
