@@ -546,6 +546,20 @@
     react "16.13.1"
     react-dom "16.13.1"
 
+"@vertigis/web@^5.9.0":
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/@vertigis/web/-/web-5.9.0.tgz#a7b17f87ac10dd10bb759dc470963be67ac1d082"
+  integrity sha512-IgJeMLucksD4hpPNqnXHpkKBEHsGto/fyTszCD7O7ffcSgEiZYttcQsM+d8mprd37MD/hRdOpSD5uOsyx1yR0Q==
+  dependencies:
+    "@types/react" "16.9.36"
+    "@types/react-dom" "16.9.8"
+    "@types/react-window" "1.8.2"
+    "@vertigis/arcgis-extensions" "22.0.1"
+    "@vertigis/react-ui" "6.3.0"
+    "@vertigis/viewer-spec" "34.0.0"
+    react "16.13.1"
+    react-dom "16.13.1"
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -929,6 +943,21 @@ aproba@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
+
+arcgis-js-api@~4.16.2:
+  version "4.16.2"
+  resolved "https://registry.yarnpkg.com/arcgis-js-api/-/arcgis-js-api-4.16.2.tgz#16bd21d30ecf97ae3e083217a33bb5d4b518064d"
+  integrity sha512-yABT5FBrsWaOkCCJ4I9sRuEFX3uQk8w370zln0WV8/kFW0OwFXeEkjAxqrnns/t7tbCRdUIlmbMR21ZLW4Eljw==
+  dependencies:
+    "@dojo/framework" "5.0.4"
+    dojo Esri/dojo#v1.14.2/esri-3.28.0
+    dojo-dstore "1.1.2"
+    dojox Esri/dojox#v1.14.2/esri-3.28.0
+    intersection-observer "0.5.1"
+    maquette-css-transitions "1.1.1"
+    maquette-jsx "3.0.1"
+    moment "2.24.0"
+    tslib "1.11.2"
 
 arcgis-js-api@~4.16.2:
   version "4.16.2"
@@ -2807,10 +2836,9 @@ dojo-dstore@1.1.2:
   dependencies:
     dojo "^1.9.0"
 
-dojo@1.14.2:
+dojo@1.14.2, dojo@Esri/dojo#v1.14.2/esri-3.28.0, "dojo@github:Esri/dojo#v1.14.2/esri-3.28.0":
   version "1.14.2"
-  resolved "https://registry.yarnpkg.com/dojo/-/dojo-1.14.2.tgz#45ca90b19068230e1486f68b1531fa4ce0e21280"
-  integrity sha512-TI+Ytgfh/VfmHWERp45Jte6NFMdoJTPsvUP/uzJUvAXET8FP2h442LePWWJ/q/xZ4V0V8OtdJhx8It/GB+Zbxg==
+  resolved "https://codeload.github.com/Esri/dojo/tar.gz/bed2e881e70d2d5f52a7423af2ec1f6036eb9b0c"
 
 dojo@Esri/dojo#v1.14.2/esri-3.28.0:
   version "1.14.2"
@@ -8569,6 +8597,11 @@ tslib@^2.0.1:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
   integrity sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ==
+
+tslib@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.2.tgz#462295631185db44b21b1ea3615b63cd1c038242"
+  integrity sha512-wAH28hcEKwna96/UacuWaVspVLkg4x1aDM9JlzqaQTOFczCktkVAb5fmXChgandR1EraDPs2w8P+ozM+oafwxg==
 
 tsutils@^3.17.1:
   version "3.17.1"
