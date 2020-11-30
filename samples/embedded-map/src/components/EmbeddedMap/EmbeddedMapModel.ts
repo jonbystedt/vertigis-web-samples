@@ -6,8 +6,9 @@ import {
 } from "@vertigis/web/models";
 import { throttle } from "@vertigis/web/ui";
 import Point from "esri/geometry/Point";
-import SceneView from "esri/views/SceneView";
 import { whenDefinedOnce } from "esri/core/watchUtils";
+import MapView from "esri/views/MapView";
+import SceneView from "esri/views/SceneView";
 import { Viewer, Node } from "mapillary-js";
 
 /**
@@ -27,6 +28,12 @@ interface MapillaryCamera {
     fov: number;
 }
 
+// Delete this when updating to 5.10
+type MapOrSceneView = MapView | SceneView;
+type MapModel = MapExtension & {
+    view: MapOrSceneView;
+};
+
 @serializable
 export default class EmbeddedMapModel extends ComponentModelBase {
     // For demonstration purposes only.
@@ -41,7 +48,7 @@ export default class EmbeddedMapModel extends ComponentModelBase {
     private _currentMarkerPosition: { latitude: number; longitude: number };
 
     // The computed position of the current Mapillary node
-    private _currentNodePosition: { lat: number; lon: number }; 
+    private _currentNodePosition: { lat: number; lon: number };
 
     private _updating = false;
     private _viewerUpdateHandle: IHandle;
@@ -65,9 +72,6 @@ export default class EmbeddedMapModel extends ComponentModelBase {
 
     // Set this to false to start with the maps unsynced
     sync = true;
-
-    // The computed position of the current Mapillary node
-    private _currentNodePosition: { lat: number; lon: number }; 
 
     private _mapillary: any | undefined;
     get mapillary(): any | undefined {
@@ -100,7 +104,6 @@ export default class EmbeddedMapModel extends ComponentModelBase {
 
         // A new instance is being set - add the event handlers.
         if (instance) {
-
             // Listen for changes to the currently displayed mapillary node
             this.mapillary.on(Viewer.nodechanged, this._onNodeChange);
 
@@ -111,12 +114,12 @@ export default class EmbeddedMapModel extends ComponentModelBase {
         }
     }
 
-    private _map: MapExtension | undefined;
-    get map(): MapExtension | undefined {
+    private _map: MapModel | undefined;
+    get map(): MapModel | undefined {
         return this._map;
     }
     @importModel("map-extension")
-    set map(instance: MapExtension | undefined) {
+    set map(instance: MapModel | undefined) {
         if (instance === this._map) {
             return;
         }
@@ -130,7 +133,9 @@ export default class EmbeddedMapModel extends ComponentModelBase {
 
         // A new instance is being set - sync the map.
         if (instance) {
-            this.messages.events.map.initialized.subscribe(() => this._syncMaps());
+            this.messages.events.map.initialized.subscribe(() =>
+                this._syncMaps()
+            );
 
             document.body.addEventListener("mousedown", this.mouseDownHandler);
             document.body.addEventListener("mouseup", this.mouseUpHandler);
@@ -270,7 +275,6 @@ export default class EmbeddedMapModel extends ComponentModelBase {
 
             // Handle further pov changes.
             this.mapillary.on(Viewer.povchanged, this._onPerspectiveChange);
-
         } else {
             this._currentNodePosition = undefined;
             this.mapillary.off(Viewer.povchanged, this._onPerspectiveChange);
