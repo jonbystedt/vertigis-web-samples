@@ -3,6 +3,8 @@ import {
     ComponentModelBase,
     serializable,
     importModel,
+    PropertyDefs,
+    ComponentModelProperties,
 } from "@vertigis/web/models";
 import { throttle } from "@vertigis/web/ui";
 import Point from "esri/geometry/Point";
@@ -53,6 +55,7 @@ export default class EmbeddedMapModel extends ComponentModelBase {
     private _updating = false;
     private _viewerUpdateHandle: IHandle;
     private _handleMarkerUpdate = true;
+    private _synced = false;
 
     mouseDownHandler = (): void => (this._currentMarkerPosition = undefined);
     mouseUpHandler = (): void => {
@@ -112,6 +115,11 @@ export default class EmbeddedMapModel extends ComponentModelBase {
                 (event) => this._handleViewerUpdate(event)
             );
         }
+
+        // Try to sync if we need to and can
+        if (!this._synced && this._map) {
+            void this._syncMaps();
+        }
     }
 
     private _map: MapModel | undefined;
@@ -133,9 +141,13 @@ export default class EmbeddedMapModel extends ComponentModelBase {
 
         // A new instance is being set - sync the map.
         if (instance) {
-            this.messages.events.map.initialized.subscribe(() =>
-                this._syncMaps()
-            );
+            if (!this._map.isInitialized) {
+                this.messages.events.map.initialized.subscribe(() =>
+                    this._syncMaps()
+                );
+            } else {
+                void this._syncMaps();
+            }
 
             document.body.addEventListener("mousedown", this.mouseDownHandler);
             document.body.addEventListener("mouseup", this.mouseUpHandler);
@@ -172,6 +184,8 @@ export default class EmbeddedMapModel extends ComponentModelBase {
         if (!this.map || !this.mapillary) {
             return;
         }
+
+        this._synced = true;
 
         await whenDefinedOnce(this.map.view, "center");
 
@@ -216,6 +230,8 @@ export default class EmbeddedMapModel extends ComponentModelBase {
     }
 
     private async _unsyncMaps(): Promise<void> {
+        this._synced = false;
+
         await this.messages.commands.locationMarker.remove.execute({
             id: this.id,
             maps: this.map,
@@ -358,5 +374,22 @@ export default class EmbeddedMapModel extends ComponentModelBase {
     private _activateCover() {
         this._updating = false;
         this.mapillary.activateCover();
+    }
+
+    protected _getSerializableProperties(): PropertyDefs<
+        ComponentModelProperties
+    > {
+        const props = super._getSerializableProperties();
+        return {
+            ...props,
+            title: {
+                ...this._toPropertyDef(props.title),
+                default: "Mapillary",
+            },
+            icon: {
+                ...this._toPropertyDef(props.icon),
+                default: "map-3rd-party",
+            },
+        };
     }
 }
